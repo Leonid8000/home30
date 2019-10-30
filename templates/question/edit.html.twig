@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit{% endblock %}
+
+{% block body %}
+    {{ include('layouts/header.html.twig') }}
+    <h1 align="center">Edit Question</h1>
+    <div class="container">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+
+    <a href="{{ path('admin-home') }}">
+        <button class="ml-2">Back home</button>
+    </a>
+{% endblock %}

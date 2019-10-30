@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create{% endblock %}
+
+{% block body %}
+    {{ include('layouts/header.html.twig') }}
+    <h1 align="center">Create New Question</h1>
+    <div class="container">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+
+    <a href="{{ path('admin-home') }}">
+        <button class="ml-2">Back home</button>
+    </a>
+    {{ include('layouts/footer.html.twig') }}
+{% endblock %}

@@ -1,0 +1,694 @@
+Task
+--------------------------------------------------------------------------------
+Страница логина и регистрации
+
+ПОсле того как пользователь зарегестрировался он попадает на главную страницу
+
+Страницы опросника
+
+по пять вопросов на каждой странице
+
+после того как пользователь их заполнил 
+
+он должен увидеть статистику ответов на каждый отвеченый вопрос
+
+помимо обычных пользователей должны быть админы
+
+у них есть доступ на страницу администрации где они смогут удалять и добавлять вопросы
+
+видеть полную статистику ответов на вопросы
+
+страницу с короткой информацией о каждом пользователе
+---------------------------------------------------------------------------------
+
+1 Разварачуем symfony4
+composer create-project symfony/website-skeleton my_project_name
+
+2Создаем пользователя даем права
+sudo mysql -u root # I had to use "sudo" since is new installation
+
+CREATE USER 'task_user'@'localhost' IDENTIFIED BY 'task_pass';
+GRANT ALL PRIVILEGES ON * . * TO 'task_user'@'localhost';
+FLUSH PRIVILEGES;
+exit;
+GRANT ALL PRIVILEGES ON db_task. * TO 'task_user'@'localhost';
+
+
+3 Меняем настройки в .env
+DATABASE_URL=mysql://task_user:task_pass@127.0.0.1:3306/db_task
+
+4 Создаем Бд
+php bin/console doctrine:database:create
+
+5 Создаем сущность (Вместе с сущ создаеться Repository в нем находяться методы для работы с данными)
+php bin/console make:entity Question
+	created: src/Repository/QuestionRepository.php
+
+6 Теперь можно создать минрацию (сущность заполнена полями)
+php bin/console doctrine:migrations:diff
+
+Чтобы запустить только эту миграцию в целях тестирования, вы можете использовать
+migrations:execute --up номер миграции
+
+Чтобы отменить миграцию, вы можете использовать
+migrations:execute --down номер миграции (20191029081909)
+php bin/console doctrine:migrations:execute --down 20191029081909
+
+Запсукаем миграйии
+Эта команда выполняет все файлы миграции, которые ещё не были запущены в вашей БД.
+php bin/console doctrine:migrations:migrate
+
+Если нужно добавить новое свойство например private $desc
+php bin/console doctrine:migrations:diff
+php bin/console doctrine:migrations:migrate
+И свойство добавиться
+
+==============================================================
++-+-+- Ошибка sql Warning in ./libraries/sql.lib.php#601+-+-+-
+sudo nano /usr/share/phpmyadmin/libraries/sql.lib.php
+
+ищем function PMA_isRememberSortingOrder
+	((empty($analyzed_sql_results['select_expr']))
+    || (count($analyzed_sql_results['select_expr'] == 1)
+        && ($analyzed_sql_results['select_expr'][0] == '*')))
+
+((empty($analyzed_sql_results['select_expr']))
+    || (count($analyzed_sql_results['select_expr']) == 1)
+        && ($analyzed_sql_results['select_expr'][0] == '*'))
+sudo service apache2 restart
+===============================================================
+
+php bin/console make:controller QuestionController
+	created: src/Controller/QuestionController.php
+ 	created: templates/question/index.html.twig
+
+Костомизируем twig
+И создаем метод create delete и twig для них
+--------------------------------------------------------------------------crud success
+
+
+composer require security
+composer require symfony/security-bundle
+
+php bin/console make:user
+СОЗДАЛАСЬ СУЩНОСТЬ rEPOSITORY С МЕТОДАМИ И SECURITY.YAML
+
+
+ php bin/console make:migration
+ php bin/console doctrine:migrations:migrate
+
+--------------------------------------------Entity User----------------------------------------------------
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ */
+class User implements UserInterface
+{
+------------Столбцы----------------------
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+---------------------------------------------
+-----------Getters & Setters----------------
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+--------------------------------------------
+
+Визуальный идентификатор, который представляет этого пользователя
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+     * @see UserInterface права доступа userPermission
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // не требуется при использовании алгоритма "bcrypt" в security.yaml
+    }
+
+//стереть учетные данные
+    public function eraseCredentials()
+    {
+        // Если вы храните какие-либо временные, конфиденциальные данные о пользователе, очистите их здесь
+        // $this->plainPassword = null;
+    }
+}
+
+Customizing the User Entity
+---------------------------
+php bin/console entity
+User 
+Добавим поле
+firstName
+
+Добавилось поле protected $firstName и get и set метод
+
+private $role = []; - тип поля json это может создать ошибку на сервере mySQL ЗАХОДИМ В config/doctrine.yaml server_version: '5.7' и меняем версию на 5.6
+Удалили старую миграцию и откатили ее и добавили новцю теперь поле роли не json а longtext
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+
+Fixtures - используются для загрузки «поддельного» набора данных в базу данных, которая затем может быть использована для тестирования или поможет вам получить некоторые интересные данные при разработке приложения.
+!Возможно это как сидеры в Ларе
+-------------------------------------------------------------------------------
+Сначало нужно подключить 
+composer require orm-fixtures --dev
+
+php bin/console make:fixtures
+Даем имя UserFixture
+Next: Open your new fixtures class and start customizing it.
+ Load your fixtures by running: php bin/console doctrine:fixtures:load
+ Docs: https://symfony.com/doc/master/bundles/DoctrineFixturesBundle/index.html
+
+created dir DataFixtures
+		AppFixtures.php
+		UserFixture.php
+-----------UserFixture.php-----------------------
+namespace App\DataFixtures;
+
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
+
+class UserFixture extends Fixture  //меняем Ficture на BaseFixture
+{
+    public function load(ObjectManager $manager) //public на protected / load на loadData
+    {
+        // $product = new Product();
+        // $manager->persist($product);
+	$this->createMany(10, 'main_users', function($i) { //Первый параметр сколького 2 Кого
+		$user = new User();                      
+		$user->setEmail(sprintf('spacebar%d@example.com', $i));
+		$user->setFirstName($this->faker->firstName);
+
+		return $user;
+		});
+
+        $manager->flush();
+    }
+}
+
+--------------------------------------------------------------------------------
+
+composer require --dev doctrine/doctrine-fixtures-bundle - уже есть в коробке
+composer require fzaninotto/faker
+
+Создал снова фикстуру
+namespace App\DataFixtures;
+
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
+
+use App\Entity\User;
+
+class TestFixtures extends Fixture
+{
+    private $faker;
+
+    public function __construct()
+    {
+        $this->faker = Factory::create();
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        $this->loadUsers($manager);
+
+        $manager->flush();
+    }
+
+    public function loadUsers(ObjectManager $manager){
+    for($i =1; $i<10; $i++){
+        $user = new User();
+        $user->setFirstName($this->faker->text());
+        $user->setEmail($this->faker->text(180));
+        $user->setPassword($this->faker->text());
+
+        $manager->persist($user);
+    }
+        $manager->flush();
+}
+}
+
+php bin/console doctrine:fixtures:load
+Таблица user заполнилась фековыми данными
+
+The Login Form
+-------------------------------------------
+php bin/console make:controller securityController
+
+https://symfonycasts.com/screencast/symfony-security/firewalls-authenticator#play
+
+--------------------------SecurityController------------------------------------
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
+class SecurityController extends AbstractController
+{
+    /**
+     * @Route("/login", name="app_login")
+     */
+    public function login(AuthenticationUtils $authenticationUtils)
+    {
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
+    }
+}
+
+login.twig
+{% block body %}
+<h1>Login</h1>
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    <form method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password" />
+        {#
+            If you want to control the URL the user
+            is redirected to on success (more details below)
+            <input type="hidden" name="_target_path" value="/account" />
+        #}
+        <button type="submit">login</button>
+    </form>
+{% endblock %}
+
+Создали SecurityController и twig с формой
+Работа каждого аутентификатора состоит в том, чтобы просмотреть запрос, чтобы увидеть, есть ли на нем какая-либо информация для аутентификации - например, отправленный адрес электронной почты и пароль или, может быть, токен API, который хранится в заголовке. Если аутентификатор находит какую-то информацию, он пытается использовать ее, чтобы найти пользователя, проверить пароль, если он есть, и войти в систему! Наша задача - написать эти аутентификаторы.
+
+Заходим в  config/packages/security.yaml
+-------------------------------------------------------------------------------
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+--------------------------------------------------------------------------------------
+
+Есть две основные части безопасности: аутентификация и авторизация. Аутентификация заключается в том, чтобы выяснить, кто вы, и заставить вас доказать это. Это процесс входа в систему. Авторизация происходит после аутентификации: все зависит от того, есть ли у вас доступ к чему-либо.
+
+Вся работа firewalls состоит в том, чтобы аутентифицировать вас: выяснить, кто вы есть. И, как правило, имеет смысл иметь только один брандмауэр в вашем приложении, даже если вы хотите, чтобы у ваших пользователей было много разных способов входа в систему - например, форма входа или аутентификация API.
+
+Но ... хм ... Symfony дал нам два межсетевых экрана по умолчанию(dev и main)! Какого черта? Вот как это работает: в начале каждого запроса Symfony определяет тот брандмауэр, который соответствует текущему запросу. Это делается путем сравнения URL-адреса с конфигурацией шаблона регулярного выражения. А если присмотреться ... первый брандмауэр dev - подделка!
+
+dev становится активным, если URL начинается с / _profiler, / _wdt, / css, / images или / js. Когда это активный брандмауэр, он устанавливает безопасность на false. По сути, этот брандмауэр существует просто для того, чтобы убедиться, что мы не делаем наш сайт настолько безопасным, чтобы блокировать веб-панель инструментов отладки или некоторые из наших статических ресурсов.
+
+main поскольку у него нет ключа шаблона, он будет активным брандмауэром для всех URL-адресов, кроме указанных выше. Да, и, если вам интересно, названия брандмауэров, dev и main абсолютно бессмысленны.
+
+Для обработки отправки формы входа в систему нам нужно создать наш самый первый аутентификатор
+php bin/console make:auth
+	Выбери стиль аунтификатора
+	 [0] Empty authenticator
+  	 [1] Login form authenticator
+Я выбрал 0 Что-бы следовать туториалу
+И даем имя классу LoginFormAuthenticator
+
+	created: src/Security/LoginFormAuthenticator.php
+ 	updated: config/packages/security.yaml
+
+src/Security/LoginFormAuthenticator.php
+Этот класс потрясающий: в основном у него есть метод для каждого шага процесса аутентификации. Прежде чем мы пройдемся по каждому из них, потому что этот аутентификатор будет для формы входа, есть другой базовый класс, который позволяет нам ... ну ... делать меньше работы!
+
+Вместо extends AbstractGuardAuthenticator используется extends AbtractFormLoginAuthenticator
+use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
+
+Я удалю old use statement.
+Благодаря этому нам больше не нужны 
+onAuthenticationFailure () start () supportRememberMe (): все они обрабатываются для нас:
+
+AbstractFormLoginAuthenticator требует создать метод:
+    protected function getLoginUrl()
+    {
+        // TODO: Implement getLoginUrl() method.
+    }
+
+
+Отлично! В отличие от многих функций Symfony, этот аутентификатор не будет активирован автоматически. Чтобы рассказать об этом Symfony, вернитесь к security.yaml. Под основным брандмауэром добавьте новый защитный ключ, новый ключ аутентификатора, который ниже, и добавьте один элемент в этот массив: App \ Security \ LoginFormAuthenticat
+
+main:
+    anonymous: true
+    guard:
+      authenticators:                        --ключ
+       - App\Security\LoginFormAuthenticator --аутентификатор
+
+
+Вся система аутентификации происходит от части компонента Security, называемой «Guard», отсюда и название.
+ Важным моментом является то, что, как только мы добавим это, в начале каждого запроса Symfony будет вызывать метод support () нашего аутентификатора.
+Чтобы доказать это, добавьте оператор die () с сообщением
+
+LoginFormAuthenticator
+	public function supports(Request $request)
+    {
+        die('Our authenticator is alive!');
+    }
+
+Теперь при использование любого URL вызываеться метод support () всегда вызывается в начале запроса. Our authenticator is alive
+Наша задача проста: вернуть true, если этот запрос содержит информацию об аутентификации, которую этот аутентификатор знает, как обрабатывать. А если нет, вернуть false.
+
+    public function supports(Request $request)
+    {
+//Что-бы узнать подходит ли роут пишем ключ _route - это проверка явл ли url === login
+        return $request->attributes->get('_route') === 'app_login';
+    }
+app_login имя маршрута в securityController
+Мы также хотим, чтобы наш аутентификатор пытался войти в систему пользователя, только если это POST-запрос
+supports()
+	&& $request->isMethod('POST');
+
+Если метод support вернет false ничего не произойдет, но если будет true то вызовет метод getCredentials() -получить учетные данные
+Это проверка , при отправке формы вардампнуться введенные данные
+   public function getCredentials(Request $request)
+    {
+        dump($request->request->all());die;
+или так
+	 dd($request->request->all()); - это dump и die !
+    }
+
+
+getCredentials () считывать наши идентификационные данные из запроса и возвращать их. В этом случае мы вернем адрес электронной почты и пароль. Но если бы это был аутентификатор токена API, мы бы вернули этот токен. Мы увидим это позже.
+
+Возвращаем массив с ключом электронной почты, установленным в $ request-> request-> get ('email') и паролем, установленным в $ request-> request-> get ('password'):
+
+
+----------------------------------------
+{% block body %}
+<h1>Login</h1>
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    <div class="container">
+    <form method="post">
+        {% if error %}
+            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+            Sign in
+        </button>
+    </form>
+    </div>
+{% endblock %}
+---------------------------------------
+после того, как мы вернемся из getCredentials (), Symfony немедленно вызовет getUser () и передаст нам этот массив в качестве первого аргумента $ credentials
+
+getUser()
+Наша задача в getUser () - использовать эти $ credentials для возврата объекта User или null, если пользователь не найден. Поскольку мы храним наших пользователей в базе данных, нам нужно запросить пользователя по его электронной почте. И для этого нам нужен UserRepository, который был создан с нашей сущностью
+
+use UserRepository
+
+ private $userRepository;
+public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+
+Вернитесь в getUser (), просто верните $ this-> userRepository-> findOneBy () для запроса по электронной почте, установив $ credentials ['email']
+Это вернет наш объект User или null. Круто то, что, если это возвращает ноль, весь процесс аутентификации остановится, и пользователь увидит ошибку. Но если мы возвращаем объект User, тогда Symfony немедленно вызывает checkCredentials () и передает ему те же $ credentials и объект User, который мы только что вернули.
+
+    public function getUser($credentials, UserProviderInterface $userProvider)
+    {
+        return $this->userRepository->findOneBy(['email' => $credentials['email']]);
+    }
+
+    public function checkCredentials($credentials, UserInterface $user)
+    {
+        return true;
+    }
+
+Чтобы выяснить, что делать, теперь, когда пользователь аутентифицирован, Symfony вызывает onAuthenticationSuccess ():
+
+На данный момент мы полностью заполнили всю логику аутентификации. Мы использовали support (), чтобы сообщить Symfony, должен ли наш аутентификатор использоваться в этом запросе, извлекли учетные данные из запроса, использовали их для поиска пользователя и вернули true в checkCredentials (), потому что у нас нет пароля.
+
+Далее, давайте заполним эти два последних метода и, наконец, увидим - на самом деле - что наш пользователь вошел в систему. Мы также узнаем немного больше о том, что происходит при сбое аутентификации и как отображается сообщение об ошибке.
+
+Теперь когда поль авторизован symfony вызывает onAuthenticationSuccess
+
+создаем homeController
+Мы знаем, как генерировать URL в Twig - функции path (). Но как мы можем сделать это на PHP? Ответ ... с помощью службы маршрутизации Symfony. Чтобы узнать, как его получить, запустите:
+
+php bin/console debug:autowiring
+------------------------------------------------------------------------
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+LoginFormAuthenticator
+	public function __construct(UserRepository $userRepository, RouterInterface $router)
+    {
+        $this->userRepository = $userRepository;
+        $this->router = $router;
+    }
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    {
+        return new RedirectResponse($this->router->generate('home'));
+    }
+
+//Перенаправление юзера на страницу входа при неправильном емейл
+    protected function getLoginUrl()
+    {
+        return $this->router->generate('app_login');
+    }
+======================================================================================================
+<?php
+
+namespace App\Security;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+
+use App\Repository\UserRepository;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\Security;
+
+use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
+
+class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
+{
+    private $userRepository;
+    /**
+     * @var RouterInterface
+     */
+    private $router;
+
+    public function __construct(UserRepository $userRepository, RouterInterface $router)
+    {
+        $this->userRepository = $userRepository;
+        $this->router = $router;
+    }
+
+    public function supports(Request $request)
+    {
+        return $request->attributes->get('_route') === 'app_login'
+        && $request->isMethod('POST');
+    }
+
+    public function getCredentials(Request $request)
+    {
+        $credentials = [
+            'email' => $request->request->get('email'),
+            'password' => $request->request->get('password'),
+        ];
+
+        $request->getSession()->set(
+            Security::LAST_USERNAME,
+            $credentials['email']
+        );
+
+        return $credentials;
+    }
+
+    public function getUser($credentials, UserProviderInterface $userProvider)
+    {
+        return $this->userRepository->findOneBy(['email' => $credentials['email']]);
+    }
+
+    public function checkCredentials($credentials, UserInterface $user)
+    {
+        return true;
+    }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        // todo
+    }
+    protected function getLoginUrl()
+    {
+        return $this->router->generate('app_login');
+    }
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    {
+        return new RedirectResponse($this->router->generate('home'));
+    }
+
+    public function start(Request $request, AuthenticationException $authException = null)
+    {
+        // todo
+    }
+
+    public function supportsRememberMe()
+    {
+        // todo
+    }
+}
+===================================================================================================
+
+LOGOUT
+        main:
+            anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                 path: app_logout
+
+Исоздаем метод в securityController
+
+    /**
+     * @Route("/logout", name="app_logout")
+     */
+    public function logout()
+    {
+        throw new \Exception('Will be intercepted before getting here');
+    }
+
+CSRF FIELD
+<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+Добавить в массив $credentials
+'csrf_token' => $request->request->get('_csrf_token'),
+
+Проверка токена
+php bin/console debug:autowiring
+
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+Ив construct добавляем CsrfTokenManagerInterface $CsrfTokenManager
+
+-----------------//Alt+Enter добавить доку к методу
+
+TUTORIAL
+https://symfonycasts.com/screencast/symfony-security/firewalls-authenticator#play
