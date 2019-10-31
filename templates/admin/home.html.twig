@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+    {{ include('admin/layouts/header.html.twig') }}
+
+    <br />
+    <a href="{{ path('q-home') }}" class="text-dark">show questions</a><br />
+    <a href="#" class="text-dark">show Users</a><br />
+    <a href="#" class="text-dark">show Results</a><br />
+    <a href="{{ path('exam') }}" class="text-success">show user home</a>
+    {{ include('admin/layouts/footer.html.twig') }}
+{% endblock %}

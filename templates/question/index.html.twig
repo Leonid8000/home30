@@ -3,10 +3,9 @@
 {% block title %}Hello QuestionController!{% endblock %}
 
 {% block body %}
-    {{ include('layouts/header.html.twig') }}
+    {{ include('admin/layouts/header.html.twig') }}
 
-    <h1 align="center">Admin home</h1>
-    <h2 align="center">Questions</h2>
+    <h2 class=" anton-font text-center">Questions</h2>
 
     {% if questions %}
         <div class="container">
@@ -23,11 +22,8 @@
                         <tr>
                             <td>{{ question.title }}</td>
                             <td>{{ question.answer }}</td>
-                            <td><a href="/question/edit/{{ question.id }}" class="btn btn-secondary">Edit</a></td>
+                            <td><a href="/admin/edit/{{ question.id }}" class="btn btn-secondary">Edit</a></td>
                             <td><a href="" class="btn btn-danger question-delete" data-id="{{ question.id }}">Delete</a></td>
-
-                            {#<td><a href="/article/{{ question.id }}" class="btn btn-dark">Show</a></td>#}
-                            {#<td><a href="/article/edit/{{ question.id }}" class="btn btn-info">Edit</a></td>#}
 
                         </tr>
                     {% endfor %}
@@ -39,6 +35,6 @@
         <p class="text-center mt-4">No questions to show</p>
     {% endif %}
 
-    {{ include('layouts/footer.html.twig') }}
+    {{ include('admin/layouts/footer.html.twig') }}
 {% endblock %}
 

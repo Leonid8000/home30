@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ExamController!{% endblock %}
+
+{% block body %}
+
+    <div class="header bg-dark ">
+        {% if is_granted('ROLE_USER') %}
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_logout') }}" class="btn btn-dark m-3">Log Out</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="example-wrapper">
+        {% if is_granted('ROLE_USER') %}
+            <button><a href="{{ path('index') }}">Home</a></button>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin') }}" class="lobster-font m-2 admin-route">Admin Panel</a><br />
+        {% endif %}
+    </div>
+
+    {% for question in questions %}
+        <p>{{ question.id }}) {{ question.title }}</p>
+    {% endfor %}
+
+{% endblock %}

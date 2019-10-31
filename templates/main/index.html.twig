@@ -1,10 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Index page!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
-    <div class="container text-center mt-4">
-        <a href="{{ path('app_login') }}" class="btn btn-secondary">Login</a>
-        <a href="" class="btn btn-secondary">register</a>
+    <div class="header bg-dark ">
+        {% if is_granted('ROLE_USER') %}
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_logout') }}" class="btn btn-dark m-3">Log Out</a>
+            </div>
+        {% else %}
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_login') }}" class="btn btn-dark m-2">Login</a>
+                <a href="{{ path('register') }}" class="btn btn-dark m-2">Sign Up</a>
+            </div>
+        {% endif %}
     </div>
+
+    <h3 class="text-dark mt-4 anton-font text-center">Questions Task</h3>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('admin') }}" class="lobster-font m-2 admin-route">Admin Panel</a><br />
+    {% endif %}
+
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('exam') }}" class="plays-font m-2 text-dark font-weight-bold">Start questionnaire</a>
+    {% endif %}
 {% endblock %}

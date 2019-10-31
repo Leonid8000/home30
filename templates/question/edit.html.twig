@@ -3,15 +3,16 @@
 {% block title %}Edit{% endblock %}
 
 {% block body %}
-    {{ include('layouts/header.html.twig') }}
-    <h1 align="center">Edit Question</h1>
+    {{ include('admin/layouts/header.html.twig') }}
+    <h1 class="text-center anton-font">Edit Question</h1>
     <div class="container">
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}
     </div>
 
-    <a href="{{ path('admin-home') }}">
-        <button class="ml-2">Back home</button>
+    <a href="{{ path('q-home') }}">
+        <button class="ml-2 btn-dark">Back home</button>
     </a>
+    {{ include('admin/layouts/footer.html.twig') }}
 {% endblock %}
