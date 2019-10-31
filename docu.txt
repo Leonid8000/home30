@@ -1,0 +1,141 @@
+    public function loadUsers(ObjectManager $manager){
+        for($i =1; $i<3; $i++){
+            $user = new User();
+            $user->setFirstName($this->faker->text());
+            $user->setEmail($this->faker->text(180));
+            $user->setRoles(['ROLE_ADMIN']);
+            $user->setPassword($this->passwordEncoder->encodePassword(
+                $user,
+                'password'
+            ));
+            $manager->persist($user);
+        }
+        $manager->flush();
+    }
+
+1 Перекинуть question в admin
+
+2 Поменять фикстуры
+ php bin/console doctrine:fixtures:load
+
+    public function loadUsers(ObjectManager $manager){
+
+            $user = new User();
+            $user->setFirstName($this->faker->text());
+            $user->setEmail('leonidzp8000@ukr.net');
+            $user->setRoles(['ROLE_ADMIN']);
+            $user->setPassword($this->passwordEncoder->encodePassword(
+                $user,
+                'password'
+            ));
+            $manager->persist($user);
+
+        $manager->flush();
+    }
+
+3 Опросник
+
+4  {% if is_granted('ROLE_USER') %}
+            <button class="m-2 btn-dark"><a href="{{ path('app_logout') }}" class="text-light">LOG OUT</a></button>
+            <a href="{{ path('exam') }}" class="plays-ffont m-2 text-dark">Start questionnaire</a>
+        {% else %}
+
+css
+---------------
+a{
+    font-family: 'Anton', sans-serif;
+}
+
+h1{
+    font-family: 'Anton', sans-serif;
+}
+
+a:hover{
+    text-underline: none;
+}
+
+body{
+    background: #b2bec3;
+}
+
+.plays-font{
+    font-family: 'Playfair Display', serif;
+}
+.anton-font{
+    font-family: 'Anton', sans-serif;
+}
+.lobster-font{
+    font-family: 'Lobster', cursive;
+}
+
+#footer{
+    position:fixed;
+    bottom:0;
+    height:100px;
+    width:100%;
+}
+
+/* index */
+.admin-route{
+    color: #1e272e;
+}
+
+.admin-route:hover{
+
+    transition: 0.7s;
+    color:#485460;
+}
+
+main/index
+------------------------------------
+    <div class="header bg-dark ">
+        {% if is_granted('ROLE_USER') %}
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_logout') }}" class="btn btn-dark m-3">Log Out</a>
+            </div>
+        {% else %}
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_login') }}" class="btn btn-dark m-2">Login</a>
+                <a href="{{ path('register') }}" class="btn btn-dark m-2">Sign Up</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <h3 class="text-dark mt-4 anton-font text-center">Questions Task</h3>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('admin') }}" class="lobster-font m-2 admin-route">Admin Panel</a><br />
+    {% endif %}
+
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('exam') }}" class="plays-font m-2 text-dark font-weight-bold">Start questionnaire</a>
+    {% endif %}
+
+exam
+----------------------------------
+<div class="header bg-dark ">
+        {% if is_granted('ROLE_USER') %}
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_logout') }}" class="btn btn-dark m-3">Log Out</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="example-wrapper">
+        {% if is_granted('ROLE_USER') %}
+            <button><a href="{{ path('index') }}">Home</a></button>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin') }}" class="lobster-font m-2 admin-route">Admin Panel</a><br />
+        {% endif %}
+    </div>
+
+    {% for question in questions %}
+        <p>{{ question.id }}) {{ question.title }}</p>
+    {% endfor %}
+
+
+Show Users
+
+Show Results
+
+МАРШРУТЫ login и register доступны только для anonymus
