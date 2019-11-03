@@ -16,9 +16,8 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils)
     {
-        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
+
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
@@ -35,14 +34,14 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator){
-//       $role_user = ['ROLE_USER'];
-
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator, AuthenticationUtils $authenticationUtils){
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
         if ($request->isMethod('POST')) {
             $user = new User();
             $user->setEmail($request->request->get('email'));
             $user->setFirstName($request->request->get('first_name'));
-//            $user->setRoles($request->request);
+            $user->setRoles(['ROLE_USER']);
             $user->setPassword($passwordEncoder->encodePassword(
                 $user,
                 $request->request->get('password')
@@ -51,10 +50,12 @@ class SecurityController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->redirectToRoute('index');
+            return $this->redirectToRoute('exam');
         }
 
         return $this->render('security/register.html.twig', [
+            'error' => $error,
+            'last_username' => $lastUsername,
         ]);
     }
 }

@@ -10,8 +10,9 @@
     <div class="container d-flex justify-content-center">
         <form method="post">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            {#<input type="hidden" name="roles" value="{{ role_user }}">#}
+            {% if error %}
+                <h4 class="text-danger font-weight-bold">{{ error.messageKey|trans(error.messageData, 'security') }}</h4>
+            {% endif %}
 
             <label for="first_name" class="sr-only" >Name</label>
             <input type="text" name="first_name" id="first_name" class="form-control mb-2" placeholder="Name" required autofocus>
@@ -25,9 +26,7 @@
             <button class="btn btn-dark btn-block col-5 text-center" type="submit">
                 Register
             </button>
-
         </form>
-
     </div>
 
     <a href="{{ path('index') }}"><button  class="btn btn-dark  text-center ml-2">Go back</button></a>

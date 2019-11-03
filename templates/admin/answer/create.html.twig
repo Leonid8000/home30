@@ -1,18 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit{% endblock %}
+{% block title %}Create{% endblock %}
 
 {% block body %}
     {{ include('admin/layouts/header.html.twig') }}
-    <h1 class="text-center anton-font">Edit Question</h1>
-    <div class="container">
+    {{ include('admin/layouts/sidebar.html.twig') }}
+
+    <h1 class="text-center anton-font">Create New Answer</h1>
+    <div class="container d-flex justify-content-center">
         {{ form_start(form) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}
     </div>
 
-    <a href="{{ path('q-home') }}">
-        <button class="ml-2 btn-dark">Back home</button>
-    </a>
     {{ include('admin/layouts/footer.html.twig') }}
 {% endblock %}

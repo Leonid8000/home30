@@ -1,9 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ExamController!{% endblock %}
+{% block title %}Poll{% endblock %}
 
 {% block body %}
-
     <div class="header bg-dark ">
         {% if is_granted('ROLE_USER') %}
             <div class="d-flex justify-content-end">
@@ -11,17 +10,34 @@
             </div>
         {% endif %}
     </div>
+    <h1 class="text-center anton-font">Rate it frameworks?</h1>
     <div class="example-wrapper">
         {% if is_granted('ROLE_USER') %}
-            <button><a href="{{ path('index') }}">Home</a></button>
+            {#<button><a href="{{ path('index') }}">Home</a></button>#}
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('admin') }}" class="lobster-font m-2 admin-route">Admin Panel</a><br />
         {% endif %}
     </div>
 
+
     {% for question in questions %}
-        <p>{{ question.id }}) {{ question.title }}</p>
+        <div class="poll-block container">
+            <p class="poll-title text-center"> {{ question.title }}</p>
+            {% for answer in question.answers %}
+                <label>{{ answer.answer }}</label>
+                <input type="checkbox" class="checkbox-round" value="{{ answer.answer }}">
+            {% endfor %}
+        </div>
     {% endfor %}
+
+    <button type="submit">Vote</button>
+
+
+    {#{% for answer in answers %}#}
+    {#<p> {{ answer.answer }}</p>#}
+    {#{% endfor %}#}
+
+    <a href="{{ path('showResults') }}">Quizz Results</a>
 
 {% endblock %}

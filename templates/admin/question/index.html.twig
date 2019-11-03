@@ -4,16 +4,21 @@
 
 {% block body %}
     {{ include('admin/layouts/header.html.twig') }}
+    {{ include('admin/layouts/sidebar.html.twig') }}
 
-    <h2 class=" anton-font text-center">Questions</h2>
-
+    <h2 class="anton-font text-center">Questions</h2>
     {% if questions %}
         <div class="container">
             <div class="row">
+                {% for msg in app.session.flashBag.get('success') %}
+                    <div class="alert alert-success">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
                 <table id="questions_table" class="table table-dark">
                     <tr>
                         <th scope="col">Question</th>
-                        <th scope="col">Answer</th>
+                        <th scope="col">Answers</th>
                         <th scope="col">Edit</th>
                         <th scope="col">Delete</th>
                     </tr>
@@ -21,20 +26,30 @@
                     {% for question in questions %}
                         <tr>
                             <td>{{ question.title }}</td>
-                            <td>{{ question.answer }}</td>
+                            <td>
+                                {% for answer in question.answers %}
+                                    <span class="badge badge-secondary">{{ answer.answer }}</span>
+                                {% endfor %}
+                            </td>
                             <td><a href="/admin/edit/{{ question.id }}" class="btn btn-secondary">Edit</a></td>
                             <td><a href="" class="btn btn-danger question-delete" data-id="{{ question.id }}">Delete</a></td>
-
                         </tr>
+
                     {% endfor %}
                     </tbody>
                 </table>
-            </div>
-        </div>
-    {% else %}
-        <p class="text-center mt-4">No questions to show</p>
-    {% endif %}
 
-    {{ include('admin/layouts/footer.html.twig') }}
+                {#<span class="pl-2 article-details">#}
+                {#{% for answer in question.answer %}#}
+                {#<span class="badge badge-secondary">{{ answer.answer }}</span>#}
+                {#{% endfor %}#}
+                {#</span>#}
+</div>
+</div>
+{% else %}
+<p class="text-center mt-4">No questions to show</p>
+{% endif %}
+
+{{ include('admin/layouts/footer.html.twig') }}
 {% endblock %}
 

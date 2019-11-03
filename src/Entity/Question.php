@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
  */
@@ -15,35 +14,53 @@ class Question
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="text", length=100)
      */
     private $title;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Answer", inversedBy="questions")
+     */
+    private $answers;
+
+    public function __construct()
+    {
+        $this->answers = new ArrayCollection();
+    }
 
     /**
-     * @ORM\Column(type="text", length=1200)
+     * @return Collection|Question[]
      */
-    private $answer;
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
 
-    //Getters & Setters
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->addQuestion($this);
+        }
+        return $this;
+    }
+    public function removeAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+        }
+        return $this;
+    }
+
+    //Getters & Setters questions
     public function getId(){
         return $this->id;
     }
-
     public function getTitle(){
         return $this->title;
     }
-
     public function setTitle($title){
         $this->title = $title;
     }
 
-    public function getAnswer(){
-        return $this->answer;
-    }
-
-    public function setAnswer($answer){
-        $this->answer = $answer;
-    }
 }
