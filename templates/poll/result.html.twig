@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="header bg-dark ">
+        {% if is_granted('ROLE_USER') %}
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_logout') }}" class="btn btn-dark m-3">Log Out</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="example-wrapper">
+        {% if is_granted('ROLE_USER') %}
+            {#<button><a href="{{ path('index') }}">Home</a></button>#}
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="d-flex justify-content-center">
+                <a href="{{ path('admin') }}" class="admin-route text-dark  anton-font text-center mt-4">Admin Panel</a><br />
+            </div>
+        {% endif %}
+    </div>
+
+    <h3 class="text-dark mt-4 anton-font text-center m-2">Poll results</h3>
+    <hr>
+
+    {#<div class="container">#}
+        {#<div class="row">#}
+            {#{% for question in questions %}#}
+            {#<div class="col-6">#}
+                {#<h4>{{ question.title }}</h4>#}
+                {#<hr>#}
+                {#{% for answer in question.answers %}#}
+                   {#<p>{{ answer.answer }}</p>#}
+                    {#<b> Voted:{{ answer.getPollCount() }}</b>#}
+                {#{% endfor %}#}
+                {#<hr>#}
+            {#</div>#}
+            {#{% endfor %}#}
+        {#</div>#}
+    {#</div>#}
+
+    <div class="col-6">
+    {% if ua %}
+    {% for ua in ua %}
+    <h4>{{ ua.user_answer }}</h4>
+    <hr>
+    {% endfor %}
+    {% else %}
+    <p class="text-danger">No answers</p>
+    {% endif %}
+    </div>
+
+
+
+{#{% for ua in userAnswer   %}#}
+    {#<h3>Question: {{ ua.user_question1 }}</h3>#}
+    {#<p>Answer: {{ ua.user_answer1 }}</p>#}
+
+    {#<h3>Question: {{ ua.user_question2 }}</h3>#}
+    {#<p>Answer: {{ ua.user_answer2 }}</p>#}
+
+    {#<h3>Question: {{ ua.user_question3 }}</h3>#}
+    {#<p>Answer: {{ ua.user_answer3 }}</p>#}
+
+    {#<h3>Question: {{ ua.user_question4 }}</h3>#}
+    {#<p>Answer: {{ ua.user_answer4 }}</p>#}
+
+    {#<h3>Question: {{ ua.user_question5 }}</h3>#}
+    {#<p>Answer: {{ ua.user_answer5 }}</p>#}
+{#{% endfor %}#}
+
+    {#{{ product }}#}
+    {#{% for ua in userAnswer   %}#}
+        {#<h3>Question: {{ ua.user_question2 }}</h3>#}
+        {#<p>Answer: {{ ua.user_answer2 }}</p>#}
+{#{% endfor %}#}
+    {#<div class="container">#}
+        {#{% for question in questions %}#}
+            {#<p>{{ question.title }}</p>#}
+            {#{% for answer in question.answers %}#}
+                {#<p>{{ answer.answer }}</p>#}
+                {#<div class="progress  mt-2">#}
+                    {#<div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">20%</div>#}
+                {#</div>#}
+            {#{% endfor %}#}
+
+        {#{% endfor %}#}
+    {#</div>#}
+
+    {#<div class="container">#}
+    {#<h2>{{ q1.title }}</h2>#}
+        {#<p>{{  }}</p>#}
+    {#{% for answers in q1.answers %}#}
+            {#<p>{{ answer }}</p>#}
+        {#<div class="progress  mt-2">#}
+        {#<div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">20%</div>#}
+        {#</div>#}
+    {#{% endfor %}#}
+    {#</div>#}
+
+    {#{% for res in userAnswer %}#}
+        {#<p>{{ res.user_question1 }}</p>#}
+        {#<p>{{ res.user_answer1 }}</p>#}
+        {#{% endfor %}#}
+
+    {# Question 2 #}
+    {#<div class="container">#}
+        {#<h2>{{ q2.title }}</h2>#}
+        {#{% for answers in q2.answers %}#}
+            {#<p>{{ answers.answer }}</p>#}
+            {#<div class="progress  mt-2">#}
+                {#<div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">20%</div>#}
+            {#</div>#}
+        {#{% endfor %}#}
+    {#</div>#}
+
+    {# Question 3 #}
+    {#<h2>{{ q3.title }}</h2>#}
+    {#<input type="hidden" value="{{ q3.title }}" name="user_question3">#}
+    {#{% for answers in q3.answers %}#}
+        {#<label>{{ answers.answer }}</label>#}
+        {#<input type="radio" value="{{ answers.answer }}" name="user_answer3" required>#}
+    {#{% endfor %}#}
+
+    {# Question 4 #}
+    {#<h2>{{ q4.title }}</h2>#}
+    {#<input type="hidden" value="{{ q4.title }}" name="user_question4">#}
+    {#{% for answers in q4.answers %}#}
+        {#<label>{{ answers.answer }}</label>#}
+        {#<input type="radio" value="{{ answers.answer }}" name="user_answer4" required>#}
+    {#{% endfor %}#}
+
+    {# Question 5 #}
+    {#<h2>{{ q5.title }}</h2>#}
+    {#<input type="hidden" value="{{ q5.title }}" name="user_question5">#}
+    {#{% for answers in q5.answers %}#}
+        {#<label>{{ answers.answer }}</label>#}
+        {#<input type="radio" value="{{ answers.answer }}" name="user_answer5" required>#}
+    {#{% endfor %}#}
+
+    <a href="{{ path('poll') }}">Poll</a>
+
+{% endblock %}

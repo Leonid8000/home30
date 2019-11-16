@@ -17,12 +17,19 @@
     </div>
 
     <h3 class="text-dark mt-4 anton-font text-center">Questions Task</h3>
+    <hr>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('admin') }}" class="lobster-font m-2 admin-route">Admin Panel</a><br />
+        <div class="d-flex justify-content-center">
+            <a href="{{ path('admin') }}" class="admin-route text-dark  anton-font text-center mt-4">Admin Panel</a><br />
+        </div>
     {% endif %}
 
     {% if is_granted('ROLE_USER') %}
-        <a href="{{ path('exam') }}" class="plays-font m-2 text-dark font-weight-bold">Start questionnaire</a>
+        <div class="start_survey_btn d-flex justify-content-center mt-4" align="center">
+        <a href="{{ path('poll') }}" class="anton-font text-dark font-weight-bold">
+            start poll
+        </a>
+        </div>
     {% endif %}
 {% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TestController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    {#{% for q in que %}#}
+        {#<h3>{{ q.que }}</h3>#}
+        {#<hr>#}
+    {#{% endfor %}#}
+
+    {#{% for a in ans %}#}
+        {#<h2>{{ a.ans }}</h2>#}
+        {#<p>Vote:{{ a.getPollCount() }}</p>#}
+    {#{% endfor %}#}
+
+</div>
+{% endblock %}
+
+{#<h2>{{ que.que }}</h2>#}
+{#{% for a in que.ans %}#}
+    {#<p>{{ a.ans }}</p>#}
+{#{% endfor %}#}

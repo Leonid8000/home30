@@ -4,9 +4,20 @@
 
 {% block body %}
     {{ include('admin/layouts/header.html.twig') }}
-    {{ include('admin/layouts/sidebar.html.twig') }}
 
-    <h1 class="text-center mt-2 anton-font text-dark">Admin home page</h1>
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-3">
+        {{ include('admin/layouts/sidebar.html.twig') }}
+    </div>
 
-    {{ include('admin/layouts/footer.html.twig') }}
+    <div class="main col-7">
+        <h1 class="text-center anton-font text-dark">Admin home page</h1>
+    </div>
+    </div>
+</div>
+
+
+
+    {#{{ include('admin/layouts/footer.html.twig') }}#}
 {% endblock %}

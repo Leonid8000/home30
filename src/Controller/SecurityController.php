@@ -50,7 +50,7 @@ class SecurityController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->redirectToRoute('exam');
+            return $this->redirectToRoute('poll');
         }
 
         return $this->render('security/register.html.twig', [

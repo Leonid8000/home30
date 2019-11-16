@@ -4,14 +4,36 @@
 
 {% block body %}
     {{ include('admin/layouts/header.html.twig') }}
-    {{ include('admin/layouts/sidebar.html.twig') }}
 
-    <h1 class="text-center anton-font">Create New Question</h1>
-    <div class="container d-flex justify-content-center">
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Save</button>
-        {{ form_end(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+                {{ include('admin/layouts/sidebar.html.twig') }}
+            </div>
+
+            <div class="main col-7">
+                <h1 class="text-center anton-font">Create New Question</h1>
+                {#<form method="post">#}
+                {#<div class="container d-flex justify-content-center">#}
+
+                    {#<input type="text" name="title">#}
+                    {#{% for answer in answers %}#}
+                        {#<label>{{ answer.answer }}</label>#}
+                        {#<input type="checkbox" class="checkbox-round" name="answers" value="{{ answer.answer }}">#}
+                    {#{% endfor %}#}
+                    {#<input type="text" name="title2">#}
+                    {#<input type="text" name="title3">#}
+                    {#<input type="text" name="title4">#}
+                    {#<input type="text" name="title5">#}
+
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    {{ form_end(form) }}
+                {#</div>#}
+                {#</form>#}
+            </div>
+        </div>
     </div>
 
     {{ include('admin/layouts/footer.html.twig') }}

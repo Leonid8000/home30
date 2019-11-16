@@ -17,11 +17,11 @@ class Question
     /**
      * @ORM\Column(type="text", length=100)
      */
-    private $title;
+    public $title;
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Answer", inversedBy="questions")
      */
-    private $answers;
+    public $answers;
 
     public function __construct()
     {
@@ -56,6 +56,7 @@ class Question
     public function getId(){
         return $this->id;
     }
+//    Title 1
     public function getTitle(){
         return $this->title;
     }

@@ -4,17 +4,27 @@
 
 {% block body %}
     {{ include('admin/layouts/header.html.twig') }}
-    {{ include('admin/layouts/sidebar.html.twig') }}
 
-    <h1 class="text-center anton-font">Edit Answer</h1>
-    <div class="container d-flex justify-content-center">
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+                {{ include('admin/layouts/sidebar.html.twig') }}
+            </div>
+
+            <div class="main col-7">
+                <h1 class="text-center anton-font">Edit Answer</h1>
+                <div class="container d-flex justify-content-center">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
+                </div>
+
+                <a href="{{ path('answers') }}">
+                    <button class="ml-2 btn-dark">Back home</button>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <a href="{{ path('answers') }}">
-        <button class="ml-2 btn-dark">Back home</button>
-    </a>
-    {{ include('admin/layouts/footer.html.twig') }}
+    {#{{ include('admin/layouts/footer.html.twig') }}#}
 {% endblock %}

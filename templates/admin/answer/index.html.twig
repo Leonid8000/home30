@@ -4,33 +4,44 @@
 
 {% block body %}
     {{ include('admin/layouts/header.html.twig') }}
-    {{ include('admin/layouts/sidebar.html.twig') }}
 
-    <h2 class="anton-font text-center">Answers</h2>
-    {% if answers %}
-        <div class="container">
-            <div class="row">
-                <table id="answer_table" class="table table-dark">
-                    <tr>
-                        <th scope="col">Question</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                    <tbody>
-                    {% for answer in answers %}
-                        <tr>
-                            <td>{{ answer.answer }}</td>
-                            <td><a href="/admin/answer/edit/{{ answer.id }}" class="btn btn-secondary">Edit</a></td>
-                            <td><a href="" class="btn btn-danger answer-delete" data-id="{{ answer.id }}">Delete</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                {{ include('admin/layouts/sidebar.html.twig') }}
+            </div>
+
+            <div class="main col-lg-7 col-sm-12">
+                <h2 class="anton-font text-center">Answers</h2>
+                {% if answers %}
+                    <div class="container">
+                        <div class="row">
+                            <table id="answer_table" class="table table-dark">
+                                <tr>
+                                    <th scope="col">Answer</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                                <tbody>
+                                {% for answer in answers %}
+                                    <tr>
+                                        <td>{{ answer.answer }}</td>
+                                        <td><a href="/admin/answer/edit/{{ answer.id }}" class="btn btn-secondary">Edit</a></td>
+                                        <td><a href="" class="btn btn-danger answer-delete" data-id="{{ answer.id }}">Delete</a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="text-center mt-4">No answers to show</p>
+                {% endif %}
             </div>
         </div>
-    {% else %}
-        <p class="text-center mt-4">No answers to show</p>
-    {% endif %}
+    </div>
 
-    {{ include('admin/layouts/footer.html.twig') }}
+
+
+    {#{{ include('admin/layouts/footer.html.twig') }}#}
 {% endblock %}

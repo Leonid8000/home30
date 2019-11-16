@@ -6,7 +6,7 @@
     <div class="header bg-dark">
         <h3 class="text-light p-2 anton-font text-center">Questions Task</h3>
     </div>
-    <h1 class="text-center">Register</h1>
+    <h1 class="text-center anton-font mt-2">Register</h1>
     <div class="container d-flex justify-content-center">
         <form method="post">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -23,11 +23,16 @@
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" name="password" id="inputPassword" class="form-control mb-2" placeholder="Password" required>
 
-            <button class="btn btn-dark btn-block col-5 text-center" type="submit">
-                Register
-            </button>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-dark btn-block anton-font" type="submit">
+                    Register
+                </button>
+            </div>
         </form>
     </div>
 
-    <a href="{{ path('index') }}"><button  class="btn btn-dark  text-center ml-2">Go back</button></a>
+    <div class="d-flex justify-content-center">
+        <a href="{{ path('index') }}"><button  class="btn btn-dark  text-center mt-2">Go back</button></a>
+    </div>
+
 {% endblock %}

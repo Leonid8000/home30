@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Poll{% endblock %}
+
+{% block body %}
+    <div class="header bg-dark ">
+        {% if is_granted('ROLE_USER') %}
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_logout') }}" class="btn btn-dark m-3">Log Out</a>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="d-flex justify-content-center">
+            <a href="{{ path('admin') }}" class="admin-route text-dark  anton-font text-center mt-4">Admin Panel</a><br />
+        </div>
+    {% endif %}
+
+    {# Poll Form #}
+    {% if questions %}
+    <form method="post">
+        {% for question in questions %}
+            <div class="poll-block container">
+                {#<input type="hidden" value="{{ question.title }}" name="user-question-{{ question.id }}">#}
+                <p class="poll-title text-center"> {{ question.title }}</p>
+                <hr>
+                {% for answer in question.answers %}
+                    <input type="radio" id="answer-{{ answer.id }}" class="checkbox-round" name="answer-user-{{ question.id }}" value="{{ answer.answer }}" required>
+                    <label for="answer-{{ question.id }}" class="label-text ml-3">{{ answer.answer }}</label><br>
+                    {#<p>{{ answer.getPollCount() }}</p>#}
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="d-flex justify-content-center">
+        <button class="btn btn-dark btn-block col-2 anton-font" type="submit">
+            Vote
+        </button>
+        </div>
+    </form>
+     {% else %}
+         <p class="text-center text-danger">No questions yet</p>
+    {% endif %}
+
+    <a href="{{ path('showResults') }}">Quizz Results</a>
+
+    {#{% for pag in pagQuestions %}#}
+        {#<p>{{ pag.title }}</p>#}
+    {#{% endfor %}#}
+
+    {#<div class="navigation">#}
+        {#{{ knp_pagination_render(questions) }}#}
+    {#</div>#}
+
+{# --------------------------------- Вариант на 5 вопросов ---------------------------------------#}
+    {#<form method="post">#}
+{# Question 1 #}
+    {#<p>{{ q1.title }}</p>#}
+    {#<input type="hidden" value="{{ q1.title }}" name="user_question1">#}
+    {#{% for answers in q1.answers %}#}
+        {#<label>{{ answers.answer }}</label>#}
+        {#<input type="radio" value="{{ answers.answer }}" name="user_answer1" required>#}
+    {#{% endfor %}#}
+
+{# Question 2 #}
+    {#<p>{{ q2.title }}</p>#}
+    {#<input type="hidden" value="{{ q2.title }}" name="user_question2">#}
+    {#{% for answers in q2.answers %}#}
+        {#<label>{{ answers.answer }}</label>#}
+        {#<input type="radio" value="{{ answers.answer }}" name="user_answer2" required>#}
+    {#{% endfor %}#}
+
+{# Question 3 #}
+    {#<p>{{ q3.title }}</p>#}
+    {#<input type="hidden" value="{{ q3.title }}" name="user_question3">#}
+    {#{% for answers in q3.answers %}#}
+        {#<label>{{ answers.answer }}</label>#}
+        {#<input type="radio" value="{{ answers.answer }}" name="user_answer3" required>#}
+    {#{% endfor %}#}
+
+{# Question 4 #}
+    {#<p>{{ q4.title }}</p>#}
+    {#<input type="hidden" value="{{ q4.title }}" name="user_question4">#}
+    {#{% for answers in q4.answers %}#}
+        {#<label>{{ answers.answer }}</label>#}
+        {#<input type="radio" value="{{ answers.answer }}" name="user_answer4" required>#}
+    {#{% endfor %}#}
+
+{# Question 5 #}
+    {#<p>{{ q5.title }}</p>#}
+    {#<input type="hidden" value="{{ q5.title }}" name="user_question5">#}
+    {#{% for answers in q5.answers %}#}
+        {#<label>{{ answers.answer }}</label>#}
+        {#<input type="radio" value="{{ answers.answer }}" name="user_answer5" required>#}
+    {#{% endfor %}#}
+
+    {#<div class="example-wrapper">#}
+        {#{% if is_granted('ROLE_USER') %}#}
+            {#<button><a href="{{ path('index') }}">Home</a></button>#}
+        {#{% endif %}#}
+        {#{% if is_granted('ROLE_ADMIN') %}#}
+            {#<a href="{{ path('admin') }}" class="lobster-font m-2 admin-route">Admin Panel</a><br />#}
+        {#{% endif %}#}
+    {#</div>#}
+
+        {#<button class="btn btn-dark btn-block col-2" type="submit">#}
+            {#Vote#}
+        {#</button>#}
+    {#</form>#}
+
+    <!-- Multiple Checkboxes -->
+    {#<div class="form-group">#}
+    {#<label class="col-md-4 control-label" for="checkboxes">Réponses :</label>#}
+    {#{% for question in questions %}#}
+    {#<div class="checkbox">#}
+    {#<label for="checkboxes-{{question.id}}">#}
+    {#<p class="poll-title text-center"> {{ question.title }}</p>#}
+    {#{% for answer in question.answers %}#}
+    {#<label>{{ answer.answer }}</label>#}
+    {#<input type="checkbox" class="checkbox-round" name="user_answer" value="{{ answer.answer }}">#}
+    {#{% endfor %}#}
+    {#{{ question.title }}#}
+    {#{%endfor%}#}
+
+{#{% endif %}#}
+    {#{% else %}#}
+    {#<p>Вопросов пока нет</p>#}
+
+{% endblock %}

@@ -4,17 +4,16 @@
 
 {% block body %}
     {{ include('admin/layouts/header.html.twig') }}
-    {{ include('admin/layouts/sidebar.html.twig') }}
 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                {{ include('admin/layouts/sidebar.html.twig') }}
+            </div>
+
+            <div class="main col-lg-7 col-sm-12">
     <h2 class="anton-font text-center">Questions</h2>
     {% if questions %}
-        <div class="container">
-            <div class="row">
-                {% for msg in app.session.flashBag.get('success') %}
-                    <div class="alert alert-success">
-                        {{ msg }}
-                    </div>
-                {% endfor %}
                 <table id="questions_table" class="table table-dark">
                     <tr>
                         <th scope="col">Question</th>
@@ -31,25 +30,21 @@
                                     <span class="badge badge-secondary">{{ answer.answer }}</span>
                                 {% endfor %}
                             </td>
-                            <td><a href="/admin/edit/{{ question.id }}" class="btn btn-secondary">Edit</a></td>
+                            <td><a href="/admin/question/edit/{{ question.id }}" class="btn btn-secondary">Edit</a></td>
                             <td><a href="" class="btn btn-danger question-delete" data-id="{{ question.id }}">Delete</a></td>
                         </tr>
 
                     {% endfor %}
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
 
-                {#<span class="pl-2 article-details">#}
-                {#{% for answer in question.answer %}#}
-                {#<span class="badge badge-secondary">{{ answer.answer }}</span>#}
-                {#{% endfor %}#}
-                {#</span>#}
-</div>
-</div>
 {% else %}
 <p class="text-center mt-4">No questions to show</p>
 {% endif %}
 
-{{ include('admin/layouts/footer.html.twig') }}
+{#{{ include('admin/layouts/footer.html.twig') }}#}
 {% endblock %}
 

@@ -7,7 +7,7 @@ if(questions){
         if(confirm('Are you sure?')){
             const id = e.target.getAttribute('data-id');
 
-            fetch(`/admin/delete/${id}`,{
+            fetch(`/admin/question/delete/${id}`,{
                 method: 'DELETE'
             }).then(res => window.location.reload());
         }
@@ -32,6 +32,6 @@ if(answer){
 });
 }
 
-$('input[type="checkbox"]').on('change', function() {
-    $('input[type="checkbox"]').not(this).prop('checked', false);
-});
+// $('input[type="checkbox"]').on('change', function() {
+//     $('input[type="checkbox"]').not(this).prop('checked', false);
+// });

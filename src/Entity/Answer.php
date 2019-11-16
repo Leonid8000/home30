@@ -17,11 +17,16 @@ class Answer
     /**
      * @ORM\Column(type="text", length=100)
      */
-    private $answer;
+    public $answer;
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Question", mappedBy="answers")
      */
     private $questions;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $poll_count;
     
     public function __construct()
     {
@@ -63,8 +68,15 @@ class Answer
         $this->answer = $answer;
     }
 
-//    public function __toString(): string
-//    {
-//        return $this->getTitle();
-//    }
+    public function getPollCount(): int
+    {
+        return $this->poll_count;
+    }
+
+    public function setPollCount(int $poll_count): self
+    {
+        $this->poll_count = $poll_count;
+
+        return $this;
+    }
 }

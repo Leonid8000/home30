@@ -9,11 +9,26 @@
                     <a class="nav-link text-light" href="{{ path('admin') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="{{ path('create') }}">Create New Question</a>
+                    <a class="nav-link text-light" href="{{ path('question/create') }}">Create New Question</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="{{ path('answer-create') }}">Create New Answer</a>
+                    <a class="nav-link text-light" href="{{ path('answer/create') }}">Create New Answer</a>
                 </li>
+
+                {# Show small screen #}
+                <li class="nav-item">
+                    <a class="nav-link text-light header-navigation" href="{{ path('questions') }}">Questions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light header-navigation" href="{{ path('answers') }}">Answers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light header-navigation" href="{{ path('users') }}">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light header-navigation" href="{{ path('results') }}">Poll Result</a>
+                </li>
+
                 {% if is_granted('ROLE_ADMIN')  %}
                     <li class="nav-item">
                         <a class="nav-link text-light" href="{{ path('app_logout') }}">Logout</a>

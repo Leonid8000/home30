@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 use App\Entity\Answer;
+use App\Form\AnswerFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,31 +26,28 @@ class AnswerController extends AbstractController
         ]);
     }
     /**
-     * @Route("/admin/answer/create", name="answer-create")
+     * @Route("/admin/answer/create", name="answer/create")
      */
     public function create(Request $request){
-        $answer = new Answer();
-        $form = $this->createFormBuilder($answer)
-            ->add('answer', TextType::class, array('attr' => array('class' => 'form-control')))
-            ->add('save', SubmitType::class, array(
-                'label' => 'Create',
-                'attr' => array('class' => 'btn btn-primary mt-3')
-            ))
-            ->getForm();
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $answer = $form->getData();
+
+        $form_answer = $this->createForm(AnswerFormType::class);
+
+        $form_answer->handleRequest($request);
+        if ($form_answer->isSubmitted() && $form_answer->isValid()) {
+            $answer_data = $form_answer->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($answer);
+            $entityManager->persist($answer_data);
             $entityManager->flush();
+            $this->addFlash('success', 'Answer created!');
+
             return $this->redirectToRoute('answers');
         }
         return $this->render('admin/answer/create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form_answer->createView(),
         ]);
     }
     /**
-     * @Route("/admin/answer/delete/{id}", name="answer-delete")
+     * @Route("/admin/answer/delete/{id}", name="answer/delete")
      * Method({"DELETE"})
      */
     public function delete(Request $request, $id){
@@ -65,7 +63,7 @@ class AnswerController extends AbstractController
      * Method({"GET", "POST"})
      */
     public function edit(Request $request, $id){
-        $answer = new Answer();
+
         $answer = $this->getDoctrine()->getRepository(Answer::class)->find($id);
         $form = $this->createFormBuilder($answer)
             ->add('answer', TextType::class, array('attr' => array('class' => 'form-control')))
@@ -85,3 +83,23 @@ class AnswerController extends AbstractController
         ]);
     }
 }
+
+//        $answer = new Answer();
+//        $form = $this->createFormBuilder($answer)
+//            ->add('answer', TextType::class, array('attr' => array('class' => 'form-control')))
+//            ->add('save', SubmitType::class, array(
+//                'label' => 'Create',
+//                'attr' => array('class' => 'btn btn-primary mt-3')
+//            ))
+//            ->getForm();
+//        $form->handleRequest($request);
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $answer = $form->getData();
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($answer);
+//            $entityManager->flush();
+//            return $this->redirectToRoute('answers');
+//        }
+//        return $this->render('admin/answer/create.html.twig', [
+//            'form' => $form->createView()
+//        ]);
