@@ -22,25 +22,27 @@
     <form method="post">
         {% for question in questions %}
             <div class="poll-block container">
-                {#<input type="hidden" value="{{ question.title }}" name="user-question-{{ question.id }}">#}
                 <p class="poll-title text-center"> {{ question.title }}</p>
                 <hr>
                 {% for answer in question.answers %}
-                    <input type="radio" id="answer-{{ answer.id }}" class="checkbox-round" name="answer-user-{{ question.id }}" value="{{ answer.answer }}" required>
+                    <input type="radio" id="answer-{{ answer.id }}" class="checkbox-round" name="answer-user-{{ question.id }}" value="{{ answer.id }}" required>
                     <label for="answer-{{ question.id }}" class="label-text ml-3">{{ answer.answer }}</label><br>
-                    {#<p>{{ answer.getPollCount() }}</p>#}
                 {% endfor %}
             </div>
         {% endfor %}
         <div class="d-flex justify-content-center">
-        <button class="btn btn-dark btn-block col-2 anton-font" type="submit">
-            Vote
-        </button>
+            <button class="btn btn-dark btn-block col-2 anton-font" type="submit">
+                Next
+            </button>
         </div>
     </form>
      {% else %}
          <p class="text-center text-danger">No questions yet</p>
     {% endif %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(questions) }}
+    </div>
 
     <a href="{{ path('showResults') }}">Quizz Results</a>
 
@@ -48,9 +50,7 @@
         {#<p>{{ pag.title }}</p>#}
     {#{% endfor %}#}
 
-    {#<div class="navigation">#}
-        {#{{ knp_pagination_render(questions) }}#}
-    {#</div>#}
+
 
 {# --------------------------------- Вариант на 5 вопросов ---------------------------------------#}
     {#<form method="post">#}

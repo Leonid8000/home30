@@ -1,0 +1,108 @@
+1 SymfonyTak
+2 HomeSymfonyAuth
+3 Symfony4.3QuestionsTask
+4 TaskSymfony
+
+Работа с одним репозиторием с разных компьютеров
+-----------------------------------------------------
+1 КЛОНИРУЕМ РЕПОЗИТОРИЙ
+git clone https://github.com/Leonid8000/task31.git 
+sudo chmod -R 777 /var/www/task31
+composer install //ВЫБИВАЕТ ОШИБКИ Problem 1 и тд
+Удалил composer.lock 
+composer install
+php bin/console server:start Заработало, но нужно подключение к бд
+
+
+2 СОЗДАЕМ ПОЛЬЗОВАТЕЛЯ БД И МЕНЯЕМ ПОДКЛЮЧЕНИЕ В env.
+-------------------------------------------------
+mysql -u root -p Но тут по другому В
+ 8000zzz6580
+
+CREATE USER 'task_user'@'localhost' IDENTIFIED BY 'task_pass'; имя task_user пароль task_pass
+CREATE USER 'pollu'@'localhost' IDENTIFIED BY 'pollp';
+
+На работе!
+CREATE USER 'homeuser'@'localhost' IDENTIFIED BY 'homepass';
+!!!Ошибка
+ERROR 1396 (HY000): Operation
+ CREATE USER failed for 'task_user'@'localhost'
+FLUSH PRIVILEGES;
+Проблема была в подчеркиваньях сменил имя и пасс и сработало
+CREATE USER 'taskuser'@'localhost' IDENTIFIED BY 'taskpass';
+
+Старые данные
+DATABASE_URL=mysql://task_user:task_pass@127.0.0.1:3306/db_task
+
+Меняем в env. имя и пасс
+
+Создание бд из под рута:
+CREATE DATABASE dbsurvey CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE polldb CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+taskuser
+taskpass
+db_task
+
+// дать все привелегии на базу my_blog ко всем * таблицам пользователю bloguser
+GRANT ALL PRIVILEGES ON db_task. * TO 'taskuser'@'localhost';
+GRANT ALL PRIVILEGES ON polldb. * TO 'pollu'@'localhost';
+
+
+php bin/console make:migration
+
+php bin/console doctrine:fixtures:load
+
+  //Get Last survey
+        $survey = $this->getDoctrine()->getRepository(Survey::class)->findOneBy([], ['id' => 'DESC']);
+php bin/console doctrine:database:create
+
+config/serveses.yaml
+parameters:
+    locale: 'en'
+    mailer_user: 'test@localhost'
+    records_per_page: 5
+
+config/routes
+
+1 Добавил ------------------------------------------
+config/serveses.yaml
+parameters:
+    locale: 'en'
+    mailer_user: 'test@localhost'
+
+
+    records_per_page: 5
+
+2 Добавил SurveyFixtures-----------------------------
+<?php
+namespace App\DataFixtures;
+
+use App\Entity\Survey;
+use App\Entity\SurveyQuestion;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
+
+class SurveyFixtures extends Fixture
+{
+    public function load(ObjectManager $manager)
+    {
+        $survey = new Survey();
+        $survey->setName('Survey 1');
+        $survey->setQuestionsPerPage(5);
+        $manager->persist($survey);
+
+        for ($i = 0; $i < 10; $i++) {
+            $surveyQuestion = new SurveyQuestion();
+            $surveyQuestion->setQuestion('Question '.($i+1));
+            $surveyQuestion->setSurvey($survey);
+            $manager->persist($surveyQuestion);
+        }
+        $manager->flush();
+    }
+}
+
+3 Добавил survey и question survey Сущности и их репозитории 
+4Добавил контролер и метод создания сущности
+
+

@@ -24,6 +24,11 @@ class Poll
      */
     public $user_answer;
 
+//    /**
+//     * @ORM\Column(type="integer")
+//     */
+//    private $answer_id;
+
 // User Id
     public function getUserId()
     {
@@ -51,4 +56,16 @@ class Poll
     {
         return $this->id;
     }
+
+//    public function getAnswerId(): int
+//    {
+//        return $this->answer_id;
+//    }
+//
+//    public function setAnswerId(int $answer_id): self
+//    {
+//        $this->answer_id = $answer_id;
+//
+//        return $this;
+//    }
 }

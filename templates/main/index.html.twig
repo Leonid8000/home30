@@ -27,9 +27,7 @@
 
     {% if is_granted('ROLE_USER') %}
         <div class="start_survey_btn d-flex justify-content-center mt-4" align="center">
-        <a href="{{ path('poll') }}" class="anton-font text-dark font-weight-bold">
-            start poll
-        </a>
+            <a href="{{ path('poll') }}" class="anton-font text-dark font-weight-bold">start poll</a>
         </div>
     {% endif %}
 {% endblock %}

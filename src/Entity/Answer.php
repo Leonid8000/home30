@@ -13,7 +13,7 @@ class Answer
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    public $id;
     /**
      * @ORM\Column(type="text", length=100)
      */
