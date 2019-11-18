@@ -29,6 +29,14 @@ class PollController extends AbstractController
      */
     public function showQuiz(Request $request, AnswerRepository $repository, PaginatorInterface $paginator){
 
+        // redirect of users who have passed the survey
+        $pollAnswers = $this->getDoctrine()->getRepository(Poll::class)->findAll();
+        foreach ($pollAnswers as $pollAnswer){
+            if($this->getUser()->id == $pollAnswer->getUserId()){
+                return $this->redirectToRoute('showResults');
+            }
+        }
+
         $allQuestions = $this->getDoctrine()->getRepository(Question::class)->findAll();
         $questions = $paginator->paginate($allQuestions,$request->query->getInt('page', 1),5);
 

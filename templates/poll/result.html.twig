@@ -42,6 +42,9 @@
         </div>
     </div>
 
+    {# Link for poll #}
+    {#<a href="{{ path('poll') }}">Poll</a>#}
+
     {#<h2 class="text-center">Auth user answers</h2>#}
     {#<hr>#}
     {#<div class="col-6">#}
@@ -65,7 +68,5 @@
     {#{% else %}#}
         {#<h4 class="text-danger ml-3">No users poll answers</h4>#}
     {#{% endif %}#}
-
-    <a href="{{ path('poll') }}">Poll</a>
 
 {% endblock %}
