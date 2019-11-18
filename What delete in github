@@ -47,6 +47,7 @@ db_task
 // дать все привелегии на базу my_blog ко всем * таблицам пользователю bloguser
 GRANT ALL PRIVILEGES ON db_task. * TO 'taskuser'@'localhost';
 GRANT ALL PRIVILEGES ON polldb. * TO 'pollu'@'localhost';
+GRANT ALL PRIVILEGES ON laradb. * TO 'larauser'@'localhost';
 
 
 php bin/console make:migration
@@ -104,5 +105,33 @@ class SurveyFixtures extends Fixture
 
 3 Добавил survey и question survey Сущности и их репозитории 
 4Добавил контролер и метод создания сущности
+
+1 Установил лару и зависимости подключился к БД
+larauser
+larapass
+laradb
+
+2clone home30
+Создаем юзера и БД
+подключаемся
+sudo mysql -u root # I had to use "sudo" since is new installation
+65806268l
+CREATE USER 'homeuser'@'localhost' IDENTIFIED BY 'homepass';
+homeuser
+homepass
+dbhome
+CREATE DATABASE dbhome CHARACTER SET utf8 COLLATE utf8_general_ci;
+GRANT ALL PRIVILEGES ON dbhome. * TO 'homeuser'@'localhost';
+FLUSH PRIVILEGES;
+
+Laravel Blog;
+http://damp-harbor-44879.herokuapp.com/
+
+1Изменить answer PollCount c NULL НА 0
+2Придумать как заблокировать проголосовавшего юзера
+3Multi step form
+4Анулировать голосование
+5Удалить Poll
+
 
 

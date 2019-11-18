@@ -1,12 +1,17 @@
 <?php
 namespace App\Controller;
-use App\Entity\Question;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 use App\Entity\User;
 use App\Entity\Poll;
 use App\Entity\Answer;
+use App\Entity\Question;
+
+use App\Repository\PollRepository;
 
 /**
  * @IsGranted("ROLE_ADMIN")
@@ -36,8 +41,14 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/results", name="results")
      */
-    public function showResults()
+    public function showResults(Request $request, PollRepository $pollRepository)
     {
+//        if ($request->isMethod('POST')){
+//        $entityManager = $this->getDoctrine()->getManager();
+//        $query = $entityManager->createQuery('DELETE * FROM poll');
+//        $query->execute();
+//        }
+
         $pollRess = $this->getDoctrine()->getRepository(Poll::class)->findAll();
         $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
         $answer = $this->getDoctrine()->getRepository(Answer::class)->findAll();
@@ -47,5 +58,9 @@ class AdminController extends AbstractController
             'questions' => $questions,
             'answer' => $answer,
         ]);
+    }
+
+    public function truncatePoll(Request $request, PollRepository $pollRepository){
+
     }
 }

@@ -20,7 +20,6 @@ class PollRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Poll::class);
     }
-
 //    /**
 //     * @param string|null $term
 //     */

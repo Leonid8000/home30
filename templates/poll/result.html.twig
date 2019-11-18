@@ -23,42 +23,48 @@
     <h3 class="text-dark mt-4 anton-font text-center m-2">Poll results</h3>
     <hr>
 
-    {#<div class="container">#}
-        {#<div class="row">#}
-            {#{% for question in questions %}#}
-            {#<div class="col-6">#}
-                {#<h4>{{ question.title }}</h4>#}
-                {#<hr>#}
-                {#{% for answer in question.answers %}#}
-                   {#<p>{{ answer.answer }}</p>#}
-                    {#<b> Voted:{{ answer.getPollCount() }}</b>#}
-                {#{% endfor %}#}
-                {#<hr>#}
-            {#</div>#}
-            {#{% endfor %}#}
-        {#</div>#}
-    {#</div>#}
-    <h2 class="text-center">Auth user answers</h2>
-    <div class="col-6">
-    {% if ua %}
-    {% for ua in ua %}
-    <h4>{{ ua.user_answer }}</h4>
-    <hr>
-    {% endfor %}
-    {% else %}
-    <p class="text-danger">No auth user answers</p>
-    {% endif %}
+    <div class="container">
+        <div class="row">
+            {% if questions %}
+                {% for question in questions %}
+                    <div class="col-6">
+                        <h4>{{ question.title }}</h4>
+                        <hr>
+                        {% for answer in question.answers %}
+                            <p>{{ answer.answer }} <b> Voted:{{ answer.getPollCount() }}</b></p>
+                        {% endfor %}
+                        {#<hr>#}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2 class="text-center">Result not yet</h2>
+            {% endif %}
+        </div>
     </div>
 
-    <h2 class="text-center">All users answers</h2>
-    {% if pollAnswers %}
-    {% for pollAns in pollAnswers %}
+    {#<h2 class="text-center">Auth user answers</h2>#}
+    {#<hr>#}
+    {#<div class="col-6">#}
+    {#{% if ua %}#}
+    {#{% for ua in ua %}#}
+    {#<h4>{{ ua.user_answer }}</h4>#}
+    {#<hr>#}
+    {#{% endfor %}#}
+    {#{% else %}#}
+        {#<h4 class="text-danger">No auth user answers</h4>#}
+    {#{% endif %}#}
+    {#</div>#}
 
-        <b>UserId: {{ pollAns.user_id }} AnswerId: {{ pollAns.user_answer }}</b><br>
-     {% endfor %}
-    {% else %}
-        <p class="text-danger">No users poll answers</p>
-    {% endif %}
+    {#<h2 class="text-center">All users answers</h2>#}
+    {#<hr>#}
+    {#{% if pollAnswers %}#}
+    {#{% for pollAns in pollAnswers %}#}
+
+        {#<b>UserId: {{ pollAns.user_id }} AnswerId: {{ pollAns.user_answer }}</b><br>#}
+     {#{% endfor %}#}
+    {#{% else %}#}
+        {#<h4 class="text-danger ml-3">No users poll answers</h4>#}
+    {#{% endif %}#}
 
     <a href="{{ path('poll') }}">Poll</a>
 

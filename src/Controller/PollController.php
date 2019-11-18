@@ -30,40 +30,36 @@ class PollController extends AbstractController
     public function showQuiz(Request $request, AnswerRepository $repository, PaginatorInterface $paginator){
 
         $allQuestions = $this->getDoctrine()->getRepository(Question::class)->findAll();
-        $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
-
-
         $questions = $paginator->paginate($allQuestions,$request->query->getInt('page', 1),5);
+
+        $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
 //        $this->getParameter('records_per_page')
 
         if ($request->isMethod('POST')) {
-
             foreach ($request->request as $ans) {
-
-//                foreach ($answers as $answer){
-//                    if($ans == $answer){
-//                        echo $answer;
-//                    }
-//                }
-
                     $poll = new Poll();
                     $poll->setUserId($this->getUser()->id);
                     $poll->setUserAnswer($ans);
 
+                foreach ($answers as $answer){
+                    if($answer->getId() == $ans){
+                      $count =  $answer->addPollCount();
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($count);
+                        $entityManager->flush();
+                    }
+                }
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($poll);
                     $entityManager->flush();
             }
-
             $this->addFlash('success', 'You have already voted!');
             return $this->redirectToRoute('showResults');
         }
-
         return $this->render('poll/index.html.twig', [
             'questions' => $questions,
         ]);
     }
-
     /**
      * @Route("/result", name="showResults")
      */
@@ -71,20 +67,9 @@ class PollController extends AbstractController
     {
         $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
         $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
-
-//        All answers for poll
+        //All answers for poll
         $pollAnswers = $this->getDoctrine()->getRepository(Poll::class)->findAll();
-
-        $sum = 0;
-
-foreach ($pollAnswers as $pa){
-        if($pa->user_answer == 32){
-            $sum++;
-            echo 'Answer: '.$pa->user_answer.' count: '.$sum;
-    }
-}echo 'SUM: '.$sum;
-
-// Answers auth user
+        // Answers auth user
         $ua = $pollRepository->findBy(['user_id' => $this->getUser()->id]);
 
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -96,3 +81,4 @@ foreach ($pollAnswers as $pa){
         ]);
     }
 }
+

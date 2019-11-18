@@ -26,7 +26,7 @@ class Answer
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $poll_count;
+    public $poll_count;
     
     public function __construct()
     {
@@ -77,6 +77,15 @@ class Answer
     {
         $this->poll_count = $poll_count;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function addPollCount()
+    {
+        $this->setPollCount($this->getPollCount()+1);
         return $this;
     }
 }

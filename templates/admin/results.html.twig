@@ -11,20 +11,31 @@
             </div>
             <div class="container">
                 <div class="row">
+                    {% if questions %}
                     {% for question in questions %}
                         <div class="col-6">
                             <h4>{{ question.title }}</h4>
                             <hr>
                             {% for answer in question.answers %}
-                                <p>{{ answer.answer }}</p>
-                                {#<b> Voted:{{ answer.getPollCount() }}</b>#}
+                                <p>{{ answer.answer }} <b> Voted:{{ answer.getPollCount() }}</b></p>
                             {% endfor %}
                             {#<hr>#}
                         </div>
                     {% endfor %}
+                        {% else %}
+                         <h2 class="text-center">Result not yet</h2>
+                        {% endif %}
+                    <form method="post">
+                        <button type="submit" class="btn btn-danger">reset poll result</button>
+                    </form>
+                    <br>
+                    <form method="post">
+                        <button type="submit" class="btn btn-danger">cancel vote</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
     {#{{ include('admin/layouts/footer.html.twig') }}#}
 {% endblock %}
