@@ -83,23 +83,3 @@ class AnswerController extends AbstractController
         ]);
     }
 }
-
-//        $answer = new Answer();
-//        $form = $this->createFormBuilder($answer)
-//            ->add('answer', TextType::class, array('attr' => array('class' => 'form-control')))
-//            ->add('save', SubmitType::class, array(
-//                'label' => 'Create',
-//                'attr' => array('class' => 'btn btn-primary mt-3')
-//            ))
-//            ->getForm();
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $answer = $form->getData();
-//            $entityManager = $this->getDoctrine()->getManager();
-//            $entityManager->persist($answer);
-//            $entityManager->flush();
-//            return $this->redirectToRoute('answers');
-//        }
-//        return $this->render('admin/answer/create.html.twig', [
-//            'form' => $form->createView()
-//        ]);

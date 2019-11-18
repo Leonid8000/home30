@@ -26,7 +26,7 @@ class Answer
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    public $poll_count;
+    public $poll_count = 0;
     
     public function __construct()
     {

@@ -19,7 +19,6 @@
                             {% for answer in question.answers %}
                                 <p>{{ answer.answer }} <b> Voted:{{ answer.getPollCount() }}</b></p>
                             {% endfor %}
-                            {#<hr>#}
                         </div>
                     {% endfor %}
                         {% else %}

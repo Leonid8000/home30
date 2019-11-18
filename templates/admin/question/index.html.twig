@@ -10,7 +10,6 @@
             <div class="col-lg-3">
                 {{ include('admin/layouts/sidebar.html.twig') }}
             </div>
-
             <div class="main col-lg-7 col-sm-12">
     <h2 class="anton-font text-center">Questions</h2>
                  {% if questions %}
@@ -40,11 +39,9 @@
             </div>
         </div>
     </div>
-
 {% else %}
 <p class="text-center mt-4">No questions to show</p>
 {% endif %}
-
 {#{{ include('admin/layouts/footer.html.twig') }}#}
 {% endblock %}
 

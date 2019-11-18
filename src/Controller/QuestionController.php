@@ -106,52 +106,5 @@ public function create(Request $request){
         ]);
     }
 }
-// With Form
-//public function create(Request $request){
-//
-//    $form = $this->createForm(QuestionFormType::class);
-//    $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
-//
-//    $form->handleRequest($request);
-//    if ($form->isSubmitted() && $form->isValid()) {
-//        $question = $form->getData();
-//        $entityManager = $this->getDoctrine()->getManager();
-//        $entityManager->persist($question);
-//        $entityManager->flush();
-//        $this->addFlash('success', 'Question created!');
-//
-//        return $this->redirectToRoute('q-home');
-//    }
-//    return $this->render('admin/question/create.html.twig', [
-//        'form' => $form->createView(),
-//        'answers'=>$answers
-//    ]);
-//}
 
-
-// Для обычной формы
-//public function create(Request $request){
-//
-//    $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
-//
-//    if ($request->isMethod('POST')) {
-//        $user = new Question();
-//        $user->setTitle($request->request->get('title'));
-//        $user->setTitle2($request->request->get('title2'));
-//        $user->setTitle3($request->request->get('title3'));
-//        $user->setTitle4($request->request->get('title4'));
-//        $user->setTitle5($request->request->get('title5'));
-//        $user->addAnswer($request->request->add('answers'));
-
-//            dd($request->request);
-//        $entityManager = $this->getDoctrine()->getManager();
-//        $entityManager->persist($user);
-//        $entityManager->flush();
-//        return $this->redirectToRoute('q-home');
-//    }
-//
-//    return $this->render('admin/question/create.html.twig', [
-//        'answers'=>$answers
-//    ]);
-//}
 
