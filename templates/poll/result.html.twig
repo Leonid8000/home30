@@ -28,10 +28,13 @@
             {% if questions %}
                 {% for question in questions %}
                     <div class="col-6">
-                        <h4>{{ question.title }}</h4>
+                        <h4 class="lobster-font">{{ question.title }}</h4>
                         <hr>
                         {% for answer in question.answers %}
-                            <p>{{ answer.answer }} <b> Voted:{{ answer.getPollCount() }}</b></p>
+                            <p class="anton-font"><b>{{ answer.answer }}</b> Voted: {{ answer.getPollCount() }}</p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{ answer.getPollCount()*100/100 }}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         {% endfor %}
                         {#<hr>#}
                     </div>

@@ -33,20 +33,3 @@ class PollType extends AbstractType
         ]);
     }
 }
-
-//$builder
-//    ->add('sur_recommend', ChoiceType::class, array(
-//        'mapped' => false,
-//        'label' => 'I would recommend this program to my friends and '.
-//            'family as a great opportunity',
-//        'choice_label' => false,
-//        'choices' => array(
-//            'strong_A' => 'strong_A',
-//            'some_A' => 'some_A',
-//            'some_D' => 'some_D',
-//            'strong_D' => 'strong_D',
-//        ),
-//        'expanded' => true,
-//        'multiple' => false,
-//    ))
-//;

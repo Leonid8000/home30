@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+
 use App\Entity\Answer;
 use App\Form\AnswerFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -72,6 +73,7 @@ class AnswerController extends AbstractController
                 'attr' => array('class' => 'btn btn-primary mt-3')
             ))
             ->getForm();
+        
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();

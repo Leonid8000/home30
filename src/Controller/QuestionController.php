@@ -45,7 +45,6 @@ public function create(Request $request){
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
         $question = $form->getData();
-//        dd($request);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($question);
         $entityManager->flush();
@@ -92,9 +91,10 @@ public function create(Request $request){
                 'attr' => array('class' => 'btn btn-primary mt-3')
             ))
             ->getForm();
+        
         $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
-//            dd($request);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
             $this->addFlash('success', 'Question updated!');

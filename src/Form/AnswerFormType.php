@@ -27,7 +27,3 @@ class AnswerFormType extends AbstractType
         ]);
     }
 }
-//->add('poll_count', HiddenType::class, [
-//    'attr' => [
-//        'value' => 0
-//    ]]);

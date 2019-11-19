@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\Response;
 
 use App\Entity\User;
 use App\Entity\Poll;
@@ -43,11 +44,17 @@ class AdminController extends AbstractController
      */
     public function showResults(Request $request, PollRepository $pollRepository)
     {
-//        if ($request->isMethod('POST')){
-//        $entityManager = $this->getDoctrine()->getManager();
-//        $query = $entityManager->createQuery('DELETE * FROM poll');
-//        $query->execute();
-//        }
+        //Remove poll result
+        if ($request->isMethod('POST')){
+            $poll = $this->getDoctrine()->getRepository(Poll::class)->findAll();
+            foreach ($poll as $p){
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($p);
+                $entityManager->flush();
+                $response = new Response();
+                $response->send();
+            }
+        }
 
         $pollRess = $this->getDoctrine()->getRepository(Poll::class)->findAll();
         $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
@@ -58,9 +65,5 @@ class AdminController extends AbstractController
             'questions' => $questions,
             'answer' => $answer,
         ]);
-    }
-
-    public function truncatePoll(Request $request, PollRepository $pollRepository){
-
     }
 }

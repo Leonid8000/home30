@@ -32,6 +32,25 @@ if(answer){
 });
 }
 
-// $('input[type="checkbox"]').on('change', function() {
-//     $('input[type="checkbox"]').not(this).prop('checked', false);
-// });
+//Reset poll result
+const poll = document.getElementById('poll_reset');
+
+if(poll){
+    poll.addEventListener('click', e => {
+        if(e.confirm('Are you sure?')){
+
+        }
+        // if(e.target.className === 'btn btn-danger poll_reset'){
+            // if(confirm('Are you sure?'))
+            //     confirm('Are you sure?');
+            // {
+            //     const id = e.target.getAttribute('data-id');
+            //
+            //     fetch(`/admin/answer/delete/${id}`,{
+            //         method: 'DELETE'
+            //     }).then(res => window.location.reload());
+            // }
+        // }
+    });
+}
+

@@ -36,31 +36,3 @@ class QuestionFormType extends AbstractType
     }
 }
 
-//            ->add('title2',TextType::class)
-//            ->add('answers2',EntityType::class,[
-//            'class' => Answer::class,
-//            'choice_label' => 'answer',
-//            'multiple' => true,
-//            'expanded' => true,
-//            ])
-//            ->add('title3',TextType::class)
-//            ->add('answers3',EntityType::class,[
-//                'class' => Answer::class,
-//                'choice_label' => 'answer',
-//                'multiple' => true,
-//                'expanded' => true,
-//            ])
-//            ->add('title4',TextType::class)
-//            ->add('answers4',EntityType::class,[
-//                'class' => Answer::class,
-//                'choice_label' => 'answer',
-//                'multiple' => true,
-//                'expanded' => true,
-//            ])
-//            ->add('title5',TextType::class)
-//            ->add('answers5',EntityType::class,[
-//                'class' => Answer::class,
-//                'choice_label' => 'answer',
-//                'multiple' => true,
-//                'expanded' => true,
-//            ]);

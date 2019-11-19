@@ -12,9 +12,7 @@ use Knp\Component\Pager\PaginatorInterface;
 
 use App\Form\PollType;
 use Symfony\Component\HttpFoundation\Tests\Test\Constraint\RequestAttributeValueSameTest;
-
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +26,6 @@ class PollController extends AbstractController
      * @Route("/poll", name="poll")
      */
     public function showQuiz(Request $request, AnswerRepository $repository, PaginatorInterface $paginator){
-
         // redirect of users who have passed the survey
         $pollAnswers = $this->getDoctrine()->getRepository(Poll::class)->findAll();
         foreach ($pollAnswers as $pollAnswer){
@@ -36,10 +33,8 @@ class PollController extends AbstractController
                 return $this->redirectToRoute('showResults');
             }
         }
-
         $allQuestions = $this->getDoctrine()->getRepository(Question::class)->findAll();
         $questions = $paginator->paginate($allQuestions,$request->query->getInt('page', 1),5);
-
         $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
 //        $this->getParameter('records_per_page')
 
@@ -74,7 +69,6 @@ class PollController extends AbstractController
     public function showResults(PollRepository $pollRepository)
     {
         $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
-        $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
         //All answers for poll
         $pollAnswers = $this->getDoctrine()->getRepository(Poll::class)->findAll();
         // Answers auth user
@@ -84,7 +78,6 @@ class PollController extends AbstractController
         return $this->render('poll/result.html.twig', [
             'ua' => $ua,
             'questions'=>$questions,
-            'answers'=>$answers,
             'pollAnswers'=>$pollAnswers,
         ]);
     }
