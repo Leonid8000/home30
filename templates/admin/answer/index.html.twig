@@ -39,5 +39,8 @@
             </div>
         </div>
     </div>
+    <div class="navigation d-flex justify-content-center">
+        {{ knp_pagination_render(answers) }}
+    </div>
     {{ include('admin/layouts/footer.html.twig') }}
 {% endblock %}

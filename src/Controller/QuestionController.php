@@ -57,7 +57,6 @@ public function create(Request $request){
         'answers'=>$answers
     ]);
 }
-
     /**
      * @Route("/admin/question/delete/{id}", name="question/delete")
      * Method({"DELETE"})
@@ -70,7 +69,6 @@ public function create(Request $request){
         $response = new Response();
         $response->send();
     }
-
     /**
      * @Route("/admin/question/edit/{id}", name="question/edit")
      * Method({"GET", "POST"})

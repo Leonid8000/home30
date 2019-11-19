@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 /**
  * @IsGranted("ROLE_ADMIN")
@@ -18,9 +19,10 @@ class AnswerController extends AbstractController
     /**
      * @Route("/admin/answers", name="answers")
      */
-    public function index()
+    public function index(Request $request, PaginatorInterface $paginator)
     {
-        $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
+        $allAnswers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
+        $answers = $paginator->paginate($allAnswers,$request->query->getInt('page', 1),10);
 
         return $this->render('admin/answer/index.html.twig', [
             'answers' => $answers,

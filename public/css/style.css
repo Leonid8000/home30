@@ -1,19 +1,13 @@
 a{
     font-family: 'Anton', sans-serif;
 }
-
 h1{
     font-family: 'Anton', sans-serif;
 }
-
 a:hover{
     text-underline: none;
 }
-
-body{
-    /*background: red;*/
-}
-
+/* Fonts */
 .plays-font{
     font-family: 'Playfair Display', serif;
 }
@@ -23,52 +17,23 @@ body{
 .lobster-font{
     font-family: 'Lobster', cursive;
 }
-
-.sidebar{
-    height: 800px;
-    width: 160px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    padding-top: 16px;
-    z-index: 1;
-}
-
-.main{
-    /*z-index: 2;*/
-    /*position:absolute;*/
-    /*left:10%;*/
-    /*background: red;*/
-}
-
-.start_survey_btn{
-    font-size:28px;
-    /*margin-left:40%;*/
-    /*margin-right:40%;*/
-}
-@media screen and (max-width: 830px) {
-    .start_survey_btn {
-        /*margin-left:10%;*/
-        /*margin-right:10%;*/
-        /*font-size:20px;*/
-    }
-}
-
-.label-text{
-    font-size: 14px;
+/* Admin panel */
+.logo{
+    color:firebrick;
+    font-size:14px;
     font-weight: 600;
 }
-
+.logo span{
+    color:greenyellow;
+}
+.start_survey_btn{
+    font-size:28px;
+}
 .admin-route{
     background: green;
     padding: 10px;
     color: #1e272e;
-    /*border:1px solid black;*/
     border-radius:45%;
-    /*margin-left:48%;*/
-    /*margin-right:40%;*/
 }
 .admin-route:hover{
     text-decoration: none;
@@ -76,22 +41,16 @@ body{
     color:#485460;
     background: greenyellow;
 }
-
-#footer{
-    position:absolute;
-    bottom:0;
-    height:100px;
-    width:100%;
-    z-index: 2;
+.label-text{
+    font-size: 14px;
+    font-weight: 600;
 }
-
 .poll-title{
     font-size:23px;
     font-family: 'Lobster', cursive;
     color:#222f3e;
     padding:4px;
 }
-
 .poll-block{
     margin:10px 10%;
     padding:10px;
@@ -105,23 +64,40 @@ body{
     display:inline-block;
     color: lightcyan;
 }
-
 .checkbox-round {
     width: 1.1em;
     height: 1.1em;
 }
 /* Header and Sidebar */
+#footer{
+    position:fixed;
+    bottom:0;
+    height:50px;
+    width:100%;
+    z-index: 2;
+}
+.sidebar{
+    height: 850px;
+    width: 160px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 16px;
+    z-index: 1;
+}
 .nav-item .header-navigation{
     display:none;
 }
-
 .sidebar{
     background: grey;
     position:absolute;
     left:0;
     width:30%;
+    border-right: 1px solid black;
+    box-shadow: -5px 0 10px -5px #333;
 }
-
 @media screen and (max-width: 983px) {
     .nav-item .header-navigation{
         display:block;
@@ -130,3 +106,38 @@ body{
         display: none;
     }
 }
+.sidebar-block{
+    border-bottom:1px solid black;
+    padding:10px;
+}
+.sidebar-block a{
+    color: black;
+}
+.sidebar-block:hover a{
+    text-decoration: none;
+    color: whitesmoke;
+}
+.sidebar-block:hover{
+    background: black;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+.sidebar-block i{
+    font-size: 18px;
+    color:black;
+}
+.sidebar-block:hover i{
+    color:whitesmoke;
+}
+#footer strong{
+    padding:10px;
+    margin:10px 5px;
+    display: flex;
+    justify-content: center;
+    color:greenyellow;
+    font-size:14px;
+}
+nav{
+    box-shadow: 0 8px 8px -8px #333;
+}
+/*box-shadow: 0 5px 5px -5px #333;*/

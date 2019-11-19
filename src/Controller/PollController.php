@@ -25,19 +25,21 @@ class PollController extends AbstractController
     /**
      * @Route("/poll", name="poll")
      */
-    public function showQuiz(Request $request, AnswerRepository $repository, PaginatorInterface $paginator){
-        // redirect of users who have passed the survey
+    public function actionPoll(Request $request, PaginatorInterface $paginator){
+        
+        // Redirect of users who have passed the survey
         $pollAnswers = $this->getDoctrine()->getRepository(Poll::class)->findAll();
         foreach ($pollAnswers as $pollAnswer){
             if($this->getUser()->id == $pollAnswer->getUserId()){
                 return $this->redirectToRoute('showResults');
             }
         }
-        $allQuestions = $this->getDoctrine()->getRepository(Question::class)->findAll();
-        $questions = $paginator->paginate($allQuestions,$request->query->getInt('page', 1),5);
-        $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
-//        $this->getParameter('records_per_page')
 
+        $allQuestions = $this->getDoctrine()->getRepository(Question::class)->findAll();
+        $questions = $paginator->paginate($allQuestions,$request->query->getInt('page', 1),6);
+        $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
+
+        //  Poll
         if ($request->isMethod('POST')) {
             foreach ($request->request as $ans) {
                     $poll = new Poll();
@@ -69,7 +71,6 @@ class PollController extends AbstractController
     public function showResults(PollRepository $pollRepository)
     {
         $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
-        //All answers for poll
         $pollAnswers = $this->getDoctrine()->getRepository(Poll::class)->findAll();
         // Answers auth user
         $ua = $pollRepository->findBy(['user_id' => $this->getUser()->id]);
