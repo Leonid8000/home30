@@ -112,6 +112,7 @@ a:hover{
 }
 .sidebar-block a{
     color: black;
+    font-size: 15px;
 }
 .sidebar-block:hover a{
     text-decoration: none;
@@ -140,4 +141,10 @@ a:hover{
 nav{
     box-shadow: 0 8px 8px -8px #333;
 }
-/*box-shadow: 0 5px 5px -5px #333;*/
+.form-block{
+    padding:40px;
+    margin-top:50px;
+    border-radius: 10%;
+    background: lightgrey;
+    box-shadow: 2px 2px 2px 2px #222;
+}

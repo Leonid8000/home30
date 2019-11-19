@@ -44,18 +44,6 @@ class AdminController extends AbstractController
      */
     public function showResults(Request $request, PollRepository $pollRepository)
     {
-        //Remove poll result
-        if ($request->isMethod('POST')){
-            $poll = $this->getDoctrine()->getRepository(Poll::class)->findAll();
-            foreach ($poll as $p){
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->remove($p);
-                $entityManager->flush();
-                $response = new Response();
-                $response->send();
-            }
-        }
-
         $pollRess = $this->getDoctrine()->getRepository(Poll::class)->findAll();
         $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
         $answer = $this->getDoctrine()->getRepository(Answer::class)->findAll();
@@ -65,5 +53,18 @@ class AdminController extends AbstractController
             'questions' => $questions,
             'answer' => $answer,
         ]);
+    }
+    /**
+     * @Route("/admin/results/delete", name="result-delete")
+     */
+    public function resultDelete(){
+        $poll = $this->getDoctrine()->getRepository(Poll::class)->findAll();
+        foreach ($poll as $p){
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($p);
+            $entityManager->flush();
+            $response = new Response();
+            $response->send();
+        }
     }
 }

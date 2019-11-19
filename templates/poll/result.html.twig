@@ -33,7 +33,10 @@
                         {% for answer in question.answers %}
                             <p class="anton-font"><b>{{ answer.answer }}</b> Voted: {{ answer.getPollCount() }}</p>
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: {{ answer.getPollCount()*100/100 }}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar"
+                                     style="width: {{ answer.getPollCount() + answer.getPollCount()/100*answer.getPollCount()+answer.getPollCount()/100 }}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+
+                                </div>
                             </div>
                         {% endfor %}
                         {#<hr>#}

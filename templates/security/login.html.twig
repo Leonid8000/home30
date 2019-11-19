@@ -9,6 +9,7 @@
 
     <div class="container d-flex justify-content-center">
         <div class="row">
+            <div class="form-block">
             <form method="post">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                 {% if error %}
@@ -33,6 +34,7 @@
                     </button>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 

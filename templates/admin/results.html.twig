@@ -27,14 +27,13 @@
                     {% else %}
                         <h2 class="text-center">Result not yet</h2>
                     {% endif %}
-                    {# Reset poll result poll #}
-                    <form method="post" class="mt-4">
-                        <button type="submit" class="btn btn-danger poll_reset anton-font" id="poll_reset">reset poll result</button>
-                    </form>
+
+                    {# Reset poll button #}
+                    <button type="submit" class="mt-4 btn btn-danger poll_reset anton-font" id="poll_reset">reset poll result</button>
+
                 </div>
             </div>
         </div>
     </div>
-
     {{ include('admin/layouts/footer.html.twig') }}
 {% endblock %}

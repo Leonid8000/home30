@@ -1,4 +1,4 @@
-// Delete qusetion
+// Delete question
 const questions = document.getElementById('questions_table');
 
 if(questions){
@@ -14,7 +14,6 @@ if(questions){
     }
 });
 }
-
 // Delete answer
 const answer = document.getElementById('answer_table');
 
@@ -31,26 +30,14 @@ if(answer){
     }
 });
 }
-
 //Reset poll result
 const poll = document.getElementById('poll_reset');
-
-if(poll){
-    poll.addEventListener('click', e => {
-        if(e.confirm('Are you sure?')){
-
-        }
-        // if(e.target.className === 'btn btn-danger poll_reset'){
-            // if(confirm('Are you sure?'))
-            //     confirm('Are you sure?');
-            // {
-            //     const id = e.target.getAttribute('data-id');
-            //
-            //     fetch(`/admin/answer/delete/${id}`,{
-            //         method: 'DELETE'
-            //     }).then(res => window.location.reload());
-            // }
-        // }
-    });
-}
+poll.addEventListener('click', funk = () =>{
+    if(confirm('Are you sure?')){
+        fetch(`/admin/results/delete`,{
+            method: 'DELETE'
+        }).then(res => window.location.reload());
+            
+    }
+});
 
