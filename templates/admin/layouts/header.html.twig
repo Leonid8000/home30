@@ -11,14 +11,14 @@
                 <li class="nav-item active">
                     <a class="nav-link text-light" href="{{ path('admin') }}">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="{{ path('question/create') }}">Create New Question</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="{{ path('answer/create') }}">Create New Answer</a>
-                </li>
 
                 {# Show small screen #}
+                <li class="nav-item">
+                    <a class="nav-link text-light header-navigation" href="{{ path('question/create') }}">Create New Question</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light header-navigation" href="{{ path('answer/create') }}">Create New Answer</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link text-light header-navigation" href="{{ path('questions') }}">Questions</a>
                 </li>

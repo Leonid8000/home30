@@ -91,7 +91,7 @@ a:hover{
     display:none;
 }
 .sidebar{
-    background: grey;
+    background: lightcyan;
     position:absolute;
     left:0;
     width:30%;
@@ -147,4 +147,13 @@ nav{
     border-radius: 10%;
     background: lightgrey;
     box-shadow: 2px 2px 2px 2px #222;
+}
+.side-tgl-btn{
+    color:gray;
+}
+.btn-link:hover a{
+    text-decoration: none;
+}
+.card-header:hover{
+    background: gray;
 }
